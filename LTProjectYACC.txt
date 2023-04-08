@@ -1,0 +1,55 @@
+%{
+	#include<stdio.h>
+	int flag = 0;
+%}
+
+%token NUMBER
+
+%left '+' '-'
+
+%left '*' '/' '%' '#'
+
+%left '(' ')'
+%%
+
+ArithmeticExpression: E{
+
+		printf("\nResult=%d\n", $$);
+
+		return 0;
+
+		};
+E:
+ '-' NUMBER { float temp=(6)*($2)*($2); $$=temp;}
+ 
+|'*' NUMBER { float temp=(4)/(3)*(3.14)*($2)*($2)*($2); $$=temp;}
+
+|'/' NUMBER { float temp=(4)*(3.14)*($2)*($2); $$=temp;}
+
+|'%' NUMBER { float temp=(2)*(3.14)*($2)*($2); $$=temp;}
+
+|'#' NUMBER { float temp=(3)*(3.14)*($2)*($2); $$=temp;}
+
+|'('E')' {$$=$2;}
+
+| '+' NUMBER { float temp=($2)*($2)*($2); $$=temp;}
+
+;
+
+
+%%
+
+void main()
+{
+printf("\nEnter Any Arithmetic Expression of which you want to find \n press '+' for volume of Cube \n press '-' for surface area of Cube \n press '*' for volume of sphere \n press '/' for surface area of sphere \n press '%' for volume of Hemisphere \n press '#' for surface area of Hemisphere\n");
+
+yyparse();
+if(flag==0)
+printf("\nEntered arithmetic expression is Valid\n\n");
+}
+
+void yyerror()
+{
+printf("\nEntered arithmetic expression is Invalid\n\n");
+flag=1;
+}
